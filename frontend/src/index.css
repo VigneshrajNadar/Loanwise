@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+    font-size: 92%;
+    /* Prevent subpixel rendering jank */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* GPU composition hints — make animations smooth */
+* {
+    box-sizing: border-box;
+}
+
+@layer base {
+    body {
+        @apply bg-[#0B0F19] text-white font-sans overflow-x-hidden antialiased;
+        background-image:
+            radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.15), transparent 25%),
+            radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.15), transparent 25%);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply tracking-tight;
+    }
+}
+
+@layer components {
+    .glass-panel {
+        @apply bg-[#111827]/90 backdrop-blur-md border border-slate-700/50 shadow-xl;
+    }
+
+    .glass-button {
+        @apply relative overflow-hidden bg-slate-800/50 hover:bg-slate-700/50 text-slate-200 border border-slate-700/50 transition-all duration-300 backdrop-blur-md;
+    }
+
+    .glass-button::after {
+        content: '';
+        @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] transition-transform duration-700;
+    }
+
+    .glass-button:hover::after {
+        @apply translate-x-[150%];
+    }
+
+    .glow-text {
+        @apply text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500;
+        filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.5));
+    }
+
+    .hero-card {
+        @apply relative overflow-hidden rounded-2xl bg-[#0F1629] border border-slate-800 transition-all duration-500;
+
+        &:hover {
+            border-color: rgba(6, 182, 212, 0.5);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+        }
+    }
+
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    /* Blob animation — GPU compositor only, no JS  */
+    @keyframes blobFloat {
+        0%   { transform: translate(0px, 0px) scale(1); }
+        33%  { transform: translate(20px, -15px) scale(1.05); }
+        66%  { transform: translate(-10px, 10px) scale(0.97); }
+        100% { transform: translate(0px, 0px) scale(1); }
+    }
+
+    .animate-spin-slow {
+        animation: spin 8s linear infinite;
+    }
+
+    .animate-pulse-fast {
+        animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Scroll Reveal Animations — faster for snappier feel */
+    .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s cubic-bezier(0.5, 0, 0, 1);
+        will-change: transform, opacity;
+    }
+
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .reveal-delay-100 {
+        transition-delay: 0.1s;
+    }
+
+    .reveal-delay-200 {
+        transition-delay: 0.2s;
+    }
+
+    .reveal-delay-300 {
+        transition-delay: 0.3s;
+    }
+}
+
+/* ── Print / PDF Export Styles ─────────────────────────────────────────── */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        background-image: none !important;
+        font-size: 10pt;
+    }
+
+    /* Hide non-essential chrome */
+    nav, aside, .print\:hidden, button, [role="navigation"] {
+        display: none !important;
+    }
+
+    /* Dark panels become white cards */
+    .glass-panel {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        page-break-inside: avoid;
+    }
+
+    /* Reset all text to dark for readability */
+    * {
+        color: #1e293b !important;
+        text-shadow: none !important;
+    }
+
+    /* Preserve colored numbers for emphasis */
+    .text-cyan-400, .text-cyan-500 { color: #0891b2 !important; }
+    .text-emerald-400, .text-emerald-500 { color: #059669 !important; }
+    .text-rose-400, .text-rose-500 { color: #e11d48 !important; }
+    .text-amber-400, .text-amber-500 { color: #d97706 !important; }
+    .text-purple-400, .text-purple-500 { color: #7c3aed !important; }
+
+    /* Charts: white bg */
+    .recharts-wrapper, .recharts-surface {
+        background: #ffffff !important;
+    }
+
+    /* Page break rules */
+    h1, h2, h3 { page-break-after: avoid; }
+    .grid > * { page-break-inside: avoid; }
+
+    /* Add print header watermark */
+    body::before {
+        content: "Loanwise AI — Confidential Loan Viability Report";
+        display: block;
+        font-size: 8pt;
+        color: #64748b !important;
+        text-align: center;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 8px;
+        margin-bottom: 16px;
+    }
+
+    /* Add print footer */
+    body::after {
+        content: "Generated by Loanwise Decision Intelligence Engine — For informational purposes only";
+        display: block;
+        font-size: 7pt;
+        color: #94a3b8 !important;
+        text-align: center;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 8px;
+        margin-top: 16px;
+    }
+}
