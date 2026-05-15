@@ -121,7 +121,3 @@ npm install
 npm run dev
 ```
 
-> **Note**: Do not commit your `.env` file or hardcode your Gemini API Key in the source code. The included `.gitignore` guarantees that `.env` files remain safely on your local machine.
-
-## License
-MIT License
