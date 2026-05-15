@@ -2,6 +2,16 @@
 
 ## Overview
 Loanwise is an enterprise-grade fintech platform built to provide advanced financial health assessments, accurate rate predictions, loan viability analysis, and robust biometric security intelligence. Combining a dynamic frontend with a powerful machine learning backend, Loanwise offers "forensic" financial capabilities designed for both lenders and individual users. It parses real financial documents and runs multi-model inference to return deep analytical insights.
+## Core Platform Tools (Navigation Features)
+The platform is organized into several user-facing tools accessible directly from the main header (Navbar). Each tool connects to our backend machine learning engines to provide specialized financial insights:
+
+1. **Eligibility Check**: A preliminary assessment tool that determines a user's basic qualification for a loan before diving into deep ML predictions.
+2. **Default Risk**: Connects directly to the Random Forest *Default Risk Model* to predict the probability of loan default based on historical financial behaviors.
+3. **Decision AI**: Powered by the *Loan Decision AI (XGBoost)*, this tool evaluates comprehensive applicant parameters and provides an actionable Approval/Rejection decision along with a Safety Score.
+4. **Health Dashboard**: A unified interface utilizing the *EMI Stress Model*, *Spending Anomaly Model*, and *Borrower Clustering Model* to present a holistic view of the user's financial health, liquidity flux, and behavioral cohort.
+5. **Life Planner**: An interactive predictive tool that allows users to simulate major life events (e.g., buying a car, marriage) and visualize their projected impact on future financial stability and liquidity.
+6. **Real-time Notifications**: An integrated alert system (Bell icon) that pushes real-time notifications to the user regarding detected anomalies, upcoming EMI payments, or significant changes in financial health.
+7. **User Dashboard**: A personalized portal for authenticated users to view their historical assessments, generated PDF reports, and manage their profile.
 
 ## Tech Stack
 Based on the project's architecture and configuration files, the application strictly utilizes the following tools:
